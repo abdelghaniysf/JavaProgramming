@@ -20,3 +20,4 @@ public class PruebaPuntos {
         System.out.println("suceso1 es igual a suceso2: " + suceso1.equals(suceso2));
     }
 }
+çç
