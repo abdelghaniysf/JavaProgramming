@@ -24,7 +24,7 @@ public class Main {
             sc.nextLine();
             switch (opcion){
                 case 1:
-                    System.out.println("Introduce el nombre: ");                   
+                    System.out.println("\nIntroduce el nombre: ");                   
                     String nombre = sc.nextLine();                   
                     System.out.println("Introduce el telefono de "+nombre+":");                    
                     String telefono = sc.next();
@@ -33,19 +33,21 @@ public class Main {
                     Personas.add(persona1);
                     break;
                 case 2:
-                    System.out.println("Introduce las iniciales para la búsqueda");
+                    System.out.println("\nIntroduce las iniciales para la búsqueda");
                     String letras=sc.next().toUpperCase();
                     for (Persona personas : Personas) {
                         if (personas.getNombre().startsWith(letras)){
-                            System.out.println(personas.getNombre()+" "+personas.getTelefono());
+                            System.out.println(personas.getNombre()+" : "+personas.getTelefono());
                         }                   
                     }
                     break;
                 case 3:
+                    System.out.println("\n------------------------------");
                     System.out.println("Listado completo de contactos");
                     for (Persona personas : Personas) {
-                        System.out.println(personas.getNombre()+" "+personas.getTelefono());
-                    }                   
+                        System.out.println(personas.getNombre()+" : "+personas.getTelefono());
+                    }      
+                    System.out.println("\n------------------------------");          
                     break;
                 case 4:
                     break;
