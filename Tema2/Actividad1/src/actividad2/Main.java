@@ -8,12 +8,11 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Persona> Personas=new ArrayList<Persona>();
-        String menu="Agenda\n\n"+
-                    "Elige una opción:\n"+
-                    "1.- Nuevo contacto\n"+
-                    "2.- Buscar por nombre\n"+
-                    "3.- Mostrar todos\n"+
-                    "4.- Salir\n";
+        String menu="\nElija una de las siguientes opciones\n\n"+
+                    "1. Nuevo contacto\n"+
+                    "2. Buscar por nombre\n"+
+                    "3. Mostrar todos\n"+
+                    "4. Salir\n";
         int opcion=0;
         while (opcion !=4){
             System.out.println(menu);
@@ -35,9 +34,9 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("Introduce las iniciales para la búsqueda");
-                    String iniciales=sc.next().toUpperCase();
+                    String letras=sc.next().toUpperCase();
                     for (Persona personas : Personas) {
-                        if (personas.getNombre().startsWith(iniciales)){
+                        if (personas.getNombre().startsWith(letras)){
                             System.out.println(personas.getNombre()+" "+personas.getTelefono());
                         }                   
                     }
