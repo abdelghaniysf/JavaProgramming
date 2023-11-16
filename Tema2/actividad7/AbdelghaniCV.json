@@ -1,0 +1,45 @@
+{
+  "nombre": "Abdelghani",
+  "edad": 20,
+  "educacion": [
+    {
+      "titulo": "Bachillerato",
+      "institucion": "IES",
+      "anio": 2018
+    },
+    {
+      "titulo": "Grado superior de Desarrollo Multiplataforma",
+      "institucion": "IES",
+      "anio": 2023
+    }
+  ],
+  "experienciaLaboral": [
+    {
+      "puesto": "Desarrollador de Software",
+      "empresa": "Empresa XYZ",
+      "anioInicio": 2020,
+      "anioFin": 2022
+    },
+    {
+      "puesto": "Analista de Sistemas",
+      "empresa": "Compañía ABC",
+      "anioInicio": 2022
+    }
+  ],
+  "habilidades": [
+    "Java",
+    "JavaScript",
+    "HTML",
+    "CSS"
+  ],
+  "idiomas": [
+    {
+      "idioma": "Inglés",
+      "nivel": "B2"
+    },
+    {
+      "idioma": "Español",
+      "nivel": "Nativo"
+    }
+  ]
+}
