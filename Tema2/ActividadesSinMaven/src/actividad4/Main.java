@@ -1,97 +1,114 @@
 package actividad4;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
     private static Scanner sc;
     private static ArrayList<Cliente> listaClientes;
-    
-    public static void main(String[] args) {
-        
-        Scanner sc= new Scanner(System.in);
-        listaClientes= new ArrayList<Cliente>();
+    private static File fichero;
 
-        String nombreFichero="clientes.txt";
-        File fichero = new File(nombreFichero);
+    public static void main(String[] args) {
+        sc = new Scanner(System.in);
+        listaClientes = new ArrayList<>();
+        String nombreFichero = "clientes.txt";
+        String menu = "1.- Alta cliente\n" +
+                "2.- Baja cliente\n" +
+                "3.- Listar clientes por saldo\n" +
+                "4.- Saldo medio clientes\n" +
+                "5.- Salir";
+        fichero = new File(nombreFichero);
+
         try {
-            FileWriter fw= new FileWriter(fichero);
-            int opcion=0;
-            sc.nextInt();
-            while (opcion !=5){
-                System.out.println("1.- Alta cliente\n"+
-                    "2.- Baja cliente\n"+
-                    "3.- Listar clientes por saldo\n"+
-                    "4.- Saldo medio clientes\n"+
-                    "5.- Salir");
-                System.out.println("Elige una opción");
-                opcion=sc.nextInt();
-                switch(opcion){
+            int opcion;
+            do {
+                System.out.println(menu);
+                System.out.print("Elige una opción: ");
+                opcion = sc.nextInt();
+                sc.nextLine(); // Consume the newline character
+
+                switch (opcion) {
                     case 1:
-                        System.out.println("Proceso de alta de cliente: ");
-                        altaClientes();
+                        altaCliente();
                         break;
                     case 2:
-                        System.out.println("Proceso de baja de cliente: ");
-                        bajaClientes();
+                        bajaCliente();
                         break;
                     case 3:
+                        listarClientesPorSaldo();
                         break;
                     case 4:
-                        System.out.println("El saldo medio de los clientes es: "+saldoMedio()+" euros.");
-                        saldoMedio();
+                        saldoMedioClientes();
                         break;
                     case 5:
-                        System.out.println("Aplicación finalizada, que tenga buen día.");
                         break;
                     default:
-                        System.out.println("Opción incorrecta, prueba otra vez.");
+                        System.out.println("Número fuera de rango de opciones.");
                 }
-            }
-            sc.close();
-            fw.close();
-        } catch (IOException e) {        
+            } while (opcion != 5);
+
+        } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            sc.close();
         }
     }
-    public static void altaClientes(){
-        System.out.println("Introduce el nombre del cliente para dar el alta: ");
-        String nombre= sc.nextLine();
-        System.out.println("Introduce el dni de "+nombre);
-        String dni= sc.next();
-        System.out.println("Introduce la fecha de nacimiento de "+nombre);
-        String fechaNacimiento= sc.next();
-        System.out.println("Introduce el saldo de "+nombre);
-        Double saldo=sc.nextDouble();
-        Cliente cliente= new Cliente(nombre, dni, fechaNacimiento, saldo);
+
+    private static void altaCliente() throws IOException {
+        System.out.print("Nombre: ");
+        String nombre = sc.nextLine();
+        System.out.print("DNI: ");
+        String dni = sc.next();
+        System.out.print("Fecha de nacimiento: ");
+        String fechaNacimiento = sc.next();
+        System.out.print("Saldo: ");
+        double saldo = sc.nextDouble();
+
+        Cliente cliente = new Cliente(nombre, dni, fechaNacimiento, saldo);
         listaClientes.add(cliente);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fichero, true))) {
+            writer.write(cliente.toString() + "\n");
+        }
     }
-    public static void bajaClientes(){
-        System.out.println("Introduce el dni del cliente a dar de baja: ");
-        String dni=sc.next();
-        for (Cliente cli : listaClientes) {
-            if (cli.getDni().equals(dni)){
-                listaClientes.remove(cli);
+
+    private static void bajaCliente() throws IOException {
+        System.out.println("DNI a dar de baja: ");
+        String dniEntrada = sc.next();
+
+        Iterator<Cliente> iterator = listaClientes.iterator();
+        while (iterator.hasNext()) {
+            Cliente cli = iterator.next();
+            if (cli.getDni().equals(dniEntrada)) {
+                iterator.remove();
+                actualizarArchivo();
             }
         }
     }
-    public static Double saldoMedio(){
-        Double saldoMed=0.0;
-        int numCli=0;
-        for (Cliente cli : listaClientes) {
-            numCli++;
-            saldoMed += cli.getSaldo();
+
+    private static void actualizarArchivo() throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fichero))) {
+            for (Cliente cliente : listaClientes) {
+                writer.write(cliente.toString() + "\n");
+            }
         }
-        return saldoMed/numCli;
     }
 
-    public static void guardarDatos(){
-
+    private static void listarClientesPorSaldo() {
+        Collections.sort(listaClientes);
+        for (Cliente cliente : listaClientes) {
+            System.out.println(cliente);
+        }
     }
-    public static void listadoDatos(){
 
+    private static void saldoMedioClientes() {
+        double mediaSaldo = listaClientes.stream().mapToDouble(Cliente::getSaldo).average().orElse(0.0);
+        System.out.println("El saldo medio es: " + mediaSaldo);
     }
 }
